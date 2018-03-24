@@ -1,0 +1,15 @@
+<view class='container'>
+  <view class='input-box'>
+     <block wx:for="{{pageShows}}" wx:key="{{index}}" data-index='{{index}}'>
+        <button  class='input-btn' bindtap='onInputClick'>{{item}}</button>
+   </block>
+  </view>
+
+  <view class="text-hint">[提示]:{{pageHint}}</view>    
+
+  <view class='btn-group'>
+        <button>重置</button>
+        <button bindtap='prompt'>提示</button>
+        <button open-type='share'>分享</button>
+  </view>
+</view>

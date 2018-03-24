@@ -1,0 +1,17 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> </button>
+    <block wx:else>
+       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image> 
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class='introduce'>
+    <text space='nbsp'>    成语是我国汉子语言词汇中的一部分定型的词组或短句。成语有固定的结构形式和固定的说法，表示一定意义，在成语中是作为一个整体 来应用的。成语有很大一部分是从古代相承沿用下来的，在用词方面往往不同于现代汉语，他代表了一个故事或者典故。成语又是一种现成的话，跟谚语相近，但是也是略有区别。成语大多出自书面，属于文语性质的。</text>
+  </view>
+  <view class='btn-group'>
+    <button class='button-left' type='primary' bindtap='gamePage'>开始消成语</button>
+    <button class='button-right' type='warn' bindtap='historyOption'>历史选项</button>
+  </view>
+</view>

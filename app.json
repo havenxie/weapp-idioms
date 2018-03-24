@@ -1,0 +1,13 @@
+{
+    "pages": [
+        "pages/main/main",
+        "pages/index/index",
+        "pages/history/history"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#FFDAB9",
+        "navigationBarTitleText": "成语消消看",
+        "navigationBarTextStyle": "black"
+    }
+}

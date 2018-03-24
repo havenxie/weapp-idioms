@@ -1,0 +1,41 @@
+/* pages/main/main.wxss */
+.btn-group{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 200rpx;
+}
+.btn-group button{
+    width: 28%;
+    background-color:#FFDEAD;
+}
+.text-hint{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 520rpx;
+    color: red;
+    font-size: 30rpx;
+}
+.input-box {
+    width: 100%;
+    padding:  20rpx;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    position: absolute;  
+    flex-wrap: wrap;
+} 
+
+.input-btn {
+    margin: 12rpx;
+    color: #333;
+    width: 78rpx;
+    height: 78rpx;
+    line-height: 72rpx;
+    background-color: #FFDAB9;
+}
