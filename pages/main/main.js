@@ -3,7 +3,9 @@ Page({
     data: {
         pageDatas: [],
         pageShows: [],
-        pageHint: ""
+        pageChick: [],//每个字对应着相应的点击与否
+        pageHint: "",
+        chicks: false
     },
 
     onLoad: function (options) {
@@ -23,19 +25,31 @@ Page({
         showDataArr.sort(function () {
           return .5 - Math.random();
         });
+        var tmpChicks = [];
+        for(var i=0; i<showDataArr.length;i++){//初始化被点击的状态
+          tmpChicks.push(false);
+        }
+
         this.setData({
-          pageDatas: tmpDatas
-        })
-        this.setData({
-          pageShows: showDataArr
+          pageDatas: tmpDatas,
+          pageShows: showDataArr,
+          pageChick: tmpChicks
         })
         this.setData({
           pageHint: this.data.pageDatas[0].explain
         })
+
         console.log(this.data.pageDatas);
         console.log(this.data.pageShows);
     },
-
+    onInputClick: function(e) {
+      var indexId = e.target.dataset.index
+      var tmpChick = this.data.pageChick;
+      tmpChick[indexId] = !this.data.pageChick[indexId];
+      this.setData({
+        pageChick: tmpChick
+      })
+    },
     prompt:function () {
         wx.showToast({
             title: '成功',

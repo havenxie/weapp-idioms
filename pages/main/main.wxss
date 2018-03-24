@@ -39,3 +39,6 @@
     line-height: 72rpx;
     background-color: #FFDAB9;
 }
+.input-btn-on {
+     background-color: red; 
+}

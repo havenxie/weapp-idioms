@@ -1,8 +1,8 @@
 <view class='container'>
   <view class='input-box'>
-     <block wx:for="{{pageShows}}" wx:key="{{index}}" data-index='{{index}}'>
-        <button  class='input-btn' bindtap='onInputClick'>{{item}}</button>
-   </block>
+      <block wx:for="{{pageShows}}" wx:key="{{index}}" > 
+        <button  data-text='{{item}}' data-index='{{index}}' class="{{pageChick[index] == false ? 'input-btn' : 'input-btn input-btn-on'}}" bindtap='onInputClick' >{{item}}</button>
+    </block> 
   </view>
 
   <view class="text-hint">[提示]:{{pageHint}}</view>    
