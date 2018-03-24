@@ -39,6 +39,15 @@
     line-height: 72rpx;
     background-color: #FFDAB9;
 }
-.input-btn-on {
+.input-btn-chick {
      background-color: red; 
+}
+.input-btn-hidden {  
+    border:0px solid #FAEBD7;
+    margin: 12rpx;
+    width: 78rpx;
+    height: 78rpx;
+    line-height: 72rpx;
+    color: #FAEBD7;
+    background-color: #FAEBD7;
 }

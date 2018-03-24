@@ -1,7 +1,7 @@
 <view class='container'>
   <view class='input-box'>
       <block wx:for="{{pageShows}}" wx:key="{{index}}" > 
-        <button  data-text='{{item}}' data-index='{{index}}' class="{{pageChick[index] == false ? 'input-btn' : 'input-btn input-btn-on'}}" bindtap='onInputClick' >{{item}}</button>
+        <button class="{{pageHidden[index]==true?'input-btn-hidden':(pageChick[index]==false?'input-btn':'input-btn input-btn-chick')}}" data-text='{{item}}' data-index='{{index}}'  bindtap="{{pageHidden[index]==true?'':'onInputClick'}}" >{{item}}</button>
     </block> 
   </view>
 
