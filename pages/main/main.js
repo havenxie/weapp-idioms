@@ -7,7 +7,8 @@ Page({
         pageHidden: [],//每个字的显示或隐藏状态
         pageHint: "",//【提示】的消息
         inputIndex: [],//选择的字对应的索引
-        rightTimes: 0//答对次数
+        rightTimes: 0,//答对次数，
+        rightMatch: 0//第几关
     },
 
     onLoad: function (options) {
@@ -38,15 +39,18 @@ Page({
           pageDatas: tmpDatas,
           pageShows: showDataArr,
           pageChick: tmpChicks,
-          pageHidden: tmpHidden
+          pageHidden: tmpHidden,
+          inputIndex: [],//选择的字对应的索引
+          rightTimes: 0,//答对次数
+          rightMatch: index
         })
         this.setData({
           pageHint: this.data.pageDatas[0].explain
-          
         })
 
-        console.log(this.data.pageDatas);
-        console.log(this.data.pageShows);
+        //console.log(this.data.pageDatas);
+        //console.log(this.data.pageShows);
+        //console.log(store.steps.length)
     },
     onInputClick: function(e) {
       var indexId = e.target.dataset.index
@@ -66,7 +70,7 @@ Page({
         this.data.inputIndex.forEach(function(item, index){
           inputStr += that.data.pageShows[item];
         })
-        console.log(inputStr)
+        //console.log(inputStr)
         if (inputStr == that.data.pageDatas[tmpRightTimes].idiom) {//ok
           tmpInputIndex.forEach(function(item, index){
             tmpHidden[item] = true;
@@ -80,28 +84,36 @@ Page({
         tmpInputIndex = [];
       }
       this.setData({//更新点击数据
-        pageChick: tmpChick,
-        pageHidden: tmpHidden,
-        inputIndex: tmpInputIndex,
-        rightTimes: tmpRightTimes,
+
       }) 
-      if(tmpRightTimes < 10){
-        this.setData({//更新点击数据
+      if (tmpRightTimes < this.data.pageDatas.length){//本关没结束
+        this.setData({//更新提示信息
+          pageChick: tmpChick,
+          pageHidden: tmpHidden,
+          inputIndex: tmpInputIndex,
+          rightTimes: tmpRightTimes,
           pageHint: this.data.pageDatas[tmpRightTimes].explain
         })
-      }else {
-        wx.showModal({
-          title: '第一关结束',
-          content: '暂时先写到这里',
+      }else {//本关结束
+        var tmprightMatch = this.data.rightMatch < store.steps.length - 1 ? (this.data.rightMatch + 1) : this.data.rightMatch
+        this.setData({//设置游戏关数
+          rightMatch: tmprightMatch
         })
-       
+        wx.showToast({
+          title: '进入下一关',
+          duration: 3000
+        })
+        this.stepIndex(tmprightMatch)
       }
     },
     prompt:function () {
         wx.showToast({
-            title: '成功',
-            icon: 'success',
-            duration: 1000
+          title: this.data.pageDatas[this.data.rightTimes].idiom,
+          icon: "none",
+          duration: 1000
         })
+    },
+    reinit:function() {
+      this.stepIndex(this.data.rightMatch)
     }
 })

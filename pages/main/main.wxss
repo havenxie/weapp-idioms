@@ -17,7 +17,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 520rpx;
+    bottom: 450rpx;
     color: red;
     font-size: 30rpx;
 }
