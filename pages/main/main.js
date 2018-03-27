@@ -1,18 +1,19 @@
 let store = require("../store/store")
 Page({
+
     data: {
-        pageDatas: [],//没有打乱之前的原始数据，用来做对比
-        pageShows: [],//存放打乱后的随机字
-        pageChick: [],//每个字的点击状态
+        pageDatas: [],//没有打乱之前的原始数据
+        pageShows: [],//存放打乱的成语
         pageHidden: [],//每个字的显示或隐藏状态
+        pageChick: [],//每个字的点击状态
         pageHint: "",//【提示】的消息
         inputIndex: [],//选择的字对应的索引
-        rightTimes: 0,//答对次数，
-        rightMatch: 0//第几关
+        rightTimes: 0,//答对次数
+        Checkpoint: 0 //关卡
     },
 
     onLoad: function (options) {
-        this.stepIndex(0)       
+        this.stepIndex(this.data.Checkpoint);
     },
 
     stepIndex: function (index) {
@@ -20,100 +21,157 @@ Page({
         var showDataStr = "";
         var showDataArr = [];
         var backupsArr = [];
-        store.steps[index].forEach(function (item, i){
-          tmpDatas.push(store.idoims[item]);
-          showDataStr += store.idoims[item].idiom;
+        store.steps[index].forEach(function (item, i) {
+            tmpDatas.push(store.idoims[item]);
+            showDataStr += store.idoims[item].idiom;
         });
-        showDataArr = showDataStr.split(""); 
+        showDataArr = showDataStr.split("");
         showDataArr.sort(function () {
-          return .5 - Math.random();
+            return .5 - Math.random();
         });
         var tmpChicks = [];
         var tmpHidden = [];
-        for(var i=0; i<showDataArr.length;i++){//初始化被点击的状态
-          tmpChicks.push(false);
-          tmpHidden.push(false);
+        for (var i = 0; i < showDataArr.length; i++) {
+            tmpChicks.push(false);
+            tmpHidden.push(false);
         }
 
         this.setData({
-          pageDatas: tmpDatas,
-          pageShows: showDataArr,
-          pageChick: tmpChicks,
-          pageHidden: tmpHidden,
-          inputIndex: [],//选择的字对应的索引
-          rightTimes: 0,//答对次数
-          rightMatch: index
+            pageDatas: tmpDatas,
+            pageShows: showDataArr,
+            pageChick: tmpChicks,
+            pageHidden: tmpHidden
         })
         this.setData({
-          pageHint: this.data.pageDatas[0].explain
+          pageHint: "【提示】：" + this.data.pageDatas[0].explain
+
         })
 
-        //console.log(this.data.pageDatas);
-        //console.log(this.data.pageShows);
-        //console.log(store.steps.length)
+        console.log(this.data.pageDatas);
+        console.log(this.data.pageShows);
+        console.log(store.steps.length);
     },
-    onInputClick: function(e) {
-      var indexId = e.target.dataset.index
-      var tmpChick = this.data.pageChick;
-      var tmpHidden = this.data.pageHidden;
-      var tmpInputIndex = this.data.inputIndex;
-      var tmpRightTimes = this.data.rightTimes;
-      tmpChick[indexId] = !this.data.pageChick[indexId];
-      if(tmpChick[indexId]){//点击
-        tmpInputIndex.push(indexId);
-      }else{//取消点击
-        tmpInputIndex.pop(indexId);
-      }
-      if (tmpInputIndex.length == 4) {//输入满了4个字
-        var inputStr = "";
-        var that = this;
-        this.data.inputIndex.forEach(function(item, index){
-          inputStr += that.data.pageShows[item];
-        })
-        //console.log(inputStr)
-        if (inputStr == that.data.pageDatas[tmpRightTimes].idiom) {//ok
-          tmpInputIndex.forEach(function(item, index){
-            tmpHidden[item] = true;
-          })
-          tmpRightTimes++;
-        }else {
-          tmpInputIndex.forEach(function (item, index) {//fail
-            tmpChick[item] = false;
-          })
-        }
-        tmpInputIndex = [];
-      }
-      this.setData({//更新点击数据
 
-      }) 
-      if (tmpRightTimes < this.data.pageDatas.length){//本关没结束
-        this.setData({//更新提示信息
+    onInputClick: function (e) {
+        var indexId = e.target.dataset.index;
+        var tmpChick = this.data.pageChick;
+        var tmpHidden = this.data.pageHidden;
+        var tmpInputIndex = this.data.inputIndex;
+        var tmpRightTimes = this.data.rightTimes;
+        tmpChick[indexId] = !this.data.pageChick[indexId];
+        if (tmpChick[indexId]) {//点击
+            tmpInputIndex.push(indexId);
+        } else {//取消点击
+            tmpInputIndex.pop(indexId);
+        }
+        if (tmpInputIndex.length == 4) {//输入满了4个字
+            var inputStr = "";
+            var that = this;
+            this.data.inputIndex.forEach(function (item, index) {
+                inputStr += that.data.pageShows[item];
+            })
+            console.log(inputStr)
+            if (inputStr == that.data.pageDatas[tmpRightTimes].idiom) {//ok
+                tmpInputIndex.forEach(function (item, index) {
+                    tmpHidden[item] = true;
+                })
+                tmpRightTimes++;
+            } else {
+                tmpInputIndex.forEach(function (item, index) {//fail
+                    tmpChick[item] = false;
+                })
+            }
+            tmpInputIndex = [];
+        }
+        this.setData({//更新页面数据
           pageChick: tmpChick,
           pageHidden: tmpHidden,
           inputIndex: tmpInputIndex,
-          rightTimes: tmpRightTimes,
-          pageHint: this.data.pageDatas[tmpRightTimes].explain
+          rightTimes: tmpRightTimes
         })
-      }else {//本关结束
-        var tmprightMatch = this.data.rightMatch < store.steps.length - 1 ? (this.data.rightMatch + 1) : this.data.rightMatch
-        this.setData({//设置游戏关数
-          rightMatch: tmprightMatch
-        })
-        wx.showToast({
-          title: '进入下一关',
-          duration: 3000
-        })
-        this.stepIndex(tmprightMatch)
-      }
+        if (tmpRightTimes < this.data.pageDatas.length) {
+            this.setData({//更新提示数据
+              pageHint: "【提示】：" + this.data.pageDatas[tmpRightTimes].explain
+            })
+        } else { // 下一关开始
+            var index = this.data.Checkpoint + 1;
+            var gameCheckpoint = '第' + (parseInt(index) + 1) + '关';
+            this.setData({
+                Checkpoint: index,
+                rightTimes: 0,
+                inputIndex: [],
+                pageHint: ''
+            })
+            console.log(this.data.Checkpoint)
+            if (this.data.Checkpoint == store.steps.length) {
+
+                wx.showToast({
+                    title: '恭喜您！通关啦',
+                    image: '../../asstes/zan.png',
+                    duration: 2000,
+                    success: () => {
+                        setTimeout(() => {
+                            wx.redirectTo({
+                                url: '../index/index'
+                            })
+                        }, 2000)
+                    }
+                })
+
+            } else {
+                wx.showModal({
+                    content: '进入下一关',
+                    duration: 3000,
+                    success: (res) => {
+                        if (res.confirm) {
+
+                            this.stepIndex(this.data.Checkpoint);
+
+                            wx.setNavigationBarTitle({//关卡显示
+                                title: gameCheckpoint
+                            })
+
+                        } else if (res.cancel) {
+                            wx.redirectTo({
+                                url: '../index/index'
+                            })
+                        }
+                    }
+                })
+            }
+        }
     },
-    prompt:function () {
-        wx.showToast({
-          title: this.data.pageDatas[this.data.rightTimes].idiom,
-          icon: "none",
-          duration: 1000
+  //【提示】：
+    orderReset: function () {
+
+        let reset = [];
+        if (this.data.rightTimes >= 0) {
+            this.data.pageHidden.forEach(function (item, index) {
+                item = false;
+                reset.push(item)
+            })
+
+            this.setData({
+                pageHidden: reset,
+                pageChick: reset,
+                rightTimes: 0,
+                pageHint: "【提示】：" + this.data.pageDatas[0].explain
+            })
+        }
+        let orderResult = this.data.pageShows.sort(function () {
+            return .5 - Math.random();
+        })
+        this.setData({
+            pageShows: orderResult
         })
     },
-    reinit:function() {
-      this.stepIndex(this.data.rightMatch)
+
+    prompt: function () {
+
+        wx.showToast({
+            title: this.data.pageDatas[this.data.rightTimes].idiom,
+            image: '../../asstes/prompt.png',
+            duration: 1500
+        })
     }
 })

@@ -1,11 +1,11 @@
 /**app.wxss**/
 .container {
   height: 100%;
-  display: flex;
+  display: flex; 
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 0rpx;  
+  padding: 0rpx; 
   box-sizing: border-box;
 } 
 page{

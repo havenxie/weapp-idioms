@@ -7,31 +7,27 @@
     position: absolute;
     bottom: 200rpx;
 }
+
 .btn-group button{
     width: 28%;
     background-color:#FFDEAD;
 }
-.text-hint{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    bottom: 450rpx;
-    color: red;
-    font-size: 30rpx;
+
+.btn-group .button-left,.button-right{
+    height: 46rpx;
 }
+
 .input-box {
     width: 100%;
-    padding:  20rpx;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; 
-    position: absolute;  
+    padding:  20rpx;  
+    display: flex; 
     flex-wrap: wrap;
-} 
+    padding-left: 50rpx;
+}
 
 .input-btn {
+    display: flex;
+    justify-content: center;
     margin: 12rpx;
     color: #333;
     width: 78rpx;
@@ -39,11 +35,24 @@
     line-height: 72rpx;
     background-color: #FFDAB9;
 }
-.input-btn-chick {
-     background-color: red; 
+
+.text-hint{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 440rpx;
+    color: red;
+    font-size: 30rpx;
 }
+
+.input-btn-chick {
+     background-color: #FF6347; 
+}
+
 .input-btn-hidden {  
-    border:0px solid #FAEBD7;
+    border: none;
     margin: 12rpx;
     width: 78rpx;
     height: 78rpx;
@@ -51,3 +60,17 @@
     color: #FAEBD7;
     background-color: #FAEBD7;
 }
+
+/**
+    [class=''] 用类来指明设置指定button的边框
+**/
+
+ button[class="input-btn-hidden"]::after {
+  border: 0;
+}  
+
+ 
+
+ button::after{
+     border-color: #EEB4B4; 
+} 

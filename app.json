@@ -1,13 +1,13 @@
 {
     "pages": [
-        "pages/main/main",
         "pages/index/index",
+        "pages/main/main",
         "pages/history/history"
     ],
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#FFDAB9",
-        "navigationBarTitleText": "成语消消看",
+        "navigationBarTitleText": "成语开心消",
         "navigationBarTextStyle": "black"
     }
 }

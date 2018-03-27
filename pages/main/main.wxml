@@ -1,15 +1,17 @@
+
 <view class='container'>
-  <view class='input-box'>
-      <block wx:for="{{pageShows}}" wx:key="{{index}}" > 
-        <button class="{{pageHidden[index]==true?'input-btn-hidden':(pageChick[index]==false?'input-btn':'input-btn input-btn-chick')}}" data-text='{{item}}' data-index='{{index}}'  bindtap="{{pageHidden[index]==true?'':'onInputClick'}}" >{{item}}</button>
-    </block> 
-  </view>
-
-  <view class="text-hint">[提示]:{{pageHint}}</view>    
-
-  <view class='btn-group'>
-        <button bindtap='reinit'>重置</button>
+    <view class='input-box'>
+        <block wx:for="{{ pageShows }}" wx:key="{{index}}">
+            <button class="{{pageHidden[index]==true?'input-btn-hidden':(pageChick[index]==false?'input-btn':'input-btn input-btn-chick')}}"  data-index='{{index}}' data-text='{{item}}' bindtap="{{pageHidden[index]==true?'':'onInputClick'}}">{{item}}</button>
+        </block>
+    </view>
+    
+    <text class='text-hint'>{{pageHint}}</text>
+    
+    <view class='btn-group'>
+        <button bindtap="orderReset">重置</button>
         <button bindtap='prompt'>提示</button>
         <button open-type='share'>分享</button>
-  </view>
+    </view>
 </view>
+
